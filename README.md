@@ -1,5 +1,5 @@
 # LEDStripFirmware
-Repo che contiene il codice per il firmware di Arduino utilizzato per sperimentare l'utilizzo di delle LED strips
+Repo che contiene il codice per il firmware di **Arduino** utilizzato per sperimentare l'utilizzo di varie **LED strips** tramite librerie già esistenti.
 
 # Termini dell'utilizzo
 
