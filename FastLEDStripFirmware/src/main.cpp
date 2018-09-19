@@ -11,7 +11,7 @@ In totale Arduino UNO ha 2048 BYTES di RAM mentre Arduino MEGA 2560 ha 8192 BYTE
 */
 
 #define LED_PIN             6
-#define LED_TYPE            WS2811
+#define LED_TYPE            WS2812
 #define NUM_LEDS            150
 #define COLOR_ORDER         GRB
 #define BRIGHTNESS          64
