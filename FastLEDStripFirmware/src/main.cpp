@@ -108,12 +108,6 @@ void loop()
 
     // Spengo tutta la strip
     //SetFullLenghtMode( false );
-
-    // Colore del LED
-    objLEDStrip[0].setRGB( 5, 139, 140 );
-
-    // Luminosità del LED
-    objLEDStrip[0].setHue( 255 );
 }
 
 void SetFullLenghtMode( bool bState )
@@ -122,11 +116,29 @@ void SetFullLenghtMode( bool bState )
     // Si vuole spegnere totalmente la strip
     if ( bState == false )
     {
+        for ( size_t i = 0; i < 74; i++ )
+        {
+            // LED a sinistra
+            objLEDStrip[i].setRGB( 0, 0, 0 );
+            objLEDStrip[i].setHue( 0 );
 
+            // LED a destra
+            objLEDStrip[149 - i].setRGB( 0, 0, 0 );
+            objLEDStrip[149 - i].setHue( 0 );
+        }
     }
     else // Si vuole accendere totalmente la strip
     {
+        for ( size_t i = 1; i < 76; i++ )
+        {
+            // LED a sinistra
+            objLEDStrip[75 - i].setRGB( 5, 139, 140 );
+            objLEDStrip[75 - i].setHue( 255 );
 
+            // LED a destra
+            objLEDStrip[i + 74].setRGB( 5, 139, 140 );
+            objLEDStrip[i + 74].setHue( 255 );
+        }
     }
 }
 

@@ -80,7 +80,7 @@ void SetFollowMode( bool bState, int nBitXPosition )
     // Si vuole spegnere il cursore della strip
     if ( bState == false )
     {
-        // Test
+        
     }
     else // Si vuole accendere il cursore della strip
     {
