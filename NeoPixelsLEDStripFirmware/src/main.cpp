@@ -9,8 +9,8 @@
 #define LED_STRIP_DATA_PIN  6
 // Numero totale di LED sulla strip
 #define LED_NUMBER          150
-// Luminosità iniziale dei LED
-#define LED_BRIGHTNESS      64
+// Luminosità iniziale dei LED (da 0 a 255)
+#define LED_BRIGHTNESS      255
 // NEO_KHZ800 800 KHz bitstream (most NeoPixel products w/WS2812 LEDs)
 // NEO_KHZ400 400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
 // NEO_GRB Pixels are wired for GRB bitstream (most NeoPixel products)
@@ -43,6 +43,7 @@ void SetFullLenghtMode( bool bState );
  */
 void SetFollowMode( bool bState, int nBitXPosition );
 
+// Setup inizale di Arduino
 void setup()
 {
     objLEDStrip.begin();
@@ -54,7 +55,35 @@ void setup()
     objLEDStrip.show();
 }
 
+// Loop standard di Arduino
 void loop()
 {
 
+}
+
+void SetFullLenghtMode( bool bState )
+{
+
+    // Si vuole spegnere totalmente la strip
+    if ( bState == false )
+    {
+
+    }
+    else // Si vuole accendere totalmente la strip
+    {
+
+    }
+}
+
+void SetFollowMode( bool bState, int nBitXPosition )
+{
+    // Si vuole spegnere il cursore della strip
+    if ( bState == false )
+    {
+
+    }
+    else // Si vuole accendere il cursore della strip
+    {
+
+    }
 }
