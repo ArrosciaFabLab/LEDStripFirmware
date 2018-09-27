@@ -1,3 +1,4 @@
+#include <Arduino.h> // Su un file .ino non è necessario
 #include <FastLED.h>
 
 /*
@@ -10,17 +11,43 @@ Ogni metro si striscia utilizza circa 2 Ah alla massima lumosità quindi l'inter
 In totale Arduino UNO ha 2048 BYTES di RAM mentre Arduino MEGA 2560 ha 8192 BYTES
 */
 
+ // PIN a cui è collegato il pin dati della strip
 #define LED_PIN             6
+// Tipo di LED utilizzato sulla strip (WS2812B)
 #define LED_TYPE            WS2812
+// Numero totale di LED sulla strip
 #define NUM_LEDS            150
 #define COLOR_ORDER         GRB
+// Luminosità iniziale dei LED
 #define BRIGHTNESS          64
+// Tempo di aggiornamento dello stato dei LED ogni secondo
 #define UPDATES_PER_SECOND  100
 
-// Array dei LED
+// Array dei LED che rappresenta la strip
 CRGB leds[ NUM_LEDS ];
 
 CRGBPalette16 currentPalette;
+
+// La dichiarazione delle funzioni non è necessaria nel file .ino
+
+/*
+ *    Funzione che imposta la strip tutta accesa (150 LED) alla massima luminosità
+ *    con tutti i LED di colore Blu Turchese.
+ *    Il parametro booleano indica se accendere o spegnere la strip.
+ *    L'animazione di accensione avviene dal centro verso l'esterno.
+ *    L'animazione di spegnimento avviene dall'esterno verso il centro.
+ */
+void SetFullLenghtMode( bool bState );
+
+/*
+ *    Funzione che imposta la strip tutta spenda (150 LED) ad eccezzione di 3 LED in corrispondenza
+ *    della coordinata X della punta della fresa che saranno accesi alla massima luminosità di colore
+ *    Blu Turchese. I 5 LED a destra e sinistra di questi 3 LED dimuniranno progressivamente la loro
+ *    luminosità del colore Blu Turchese fino allo spegnimento al 6° LED a destra e a sinistra.
+ *    L'animazione di accensione avviene dal centro verso l'esterno.
+ *    L'animazione di spegnimento avviene dall'esterno verso il centro.
+ */
+void SetFollowMode( bool bState, int nBitXPosition );
 
 void setup()
 {
@@ -30,7 +57,7 @@ void setup()
     // Inizializza la strip di LED
     FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );
 
-    // Imposta la luminosità
+    // Imposta la luminosità iniziale dei LED
     FastLED.setBrightness( BRIGHTNESS );
 }
 
@@ -79,5 +106,4 @@ void loop()
 
     // Luminosità del LED
     leds[0].setHue( 255 );
-
 }

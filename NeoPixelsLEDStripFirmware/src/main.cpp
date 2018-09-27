@@ -1,4 +1,4 @@
-#include <Arduino.h>
+#include <Arduino.h> // Su un file .ino non è necessario
 #include <Adafruit_NeoPixel.h>
 
 // Schetch che utilizza la libreria Adafruit NeoPixel
@@ -7,7 +7,9 @@
 // In totale Arduino UNO ha 2048 BYTES di RAM mentre Arduino MEGA 2560 ha 8192 BYTES
 
 #define LED_STRIP_DATA_PIN  6
+// Numero totale di LED sulla strip
 #define LED_NUMBER          150
+// Luminosità iniziale dei LED
 #define LED_BRIGHTNESS      64
 // NEO_KHZ800 800 KHz bitstream (most NeoPixel products w/WS2812 LEDs)
 // NEO_KHZ400 400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
@@ -19,6 +21,27 @@
 // Parametro 2 = PIN di Arduino a cui è collegata la linea dati della striscia
 // Parametro 3 = Tipo di LED presenti sulla striscia
 Adafruit_NeoPixel objLEDStrip = Adafruit_NeoPixel( LED_NUMBER, LED_STRIP_DATA_PIN, NEO_GRB + NEO_KHZ800 );
+
+// La dichiarazione delle funzioni non è necessaria nel file .ino
+
+/*
+ *    Funzione che imposta la strip tutta accesa (150 LED) alla massima luminosità
+ *    con tutti i LED di colore Blu Turchese.
+ *    Il parametro booleano indica se accendere o spegnere la strip.
+ *    L'animazione di accensione avviene dal centro verso l'esterno.
+ *    L'animazione di spegnimento avviene dall'esterno verso il centro.
+ */
+void SetFullLenghtMode( bool bState );
+
+/*
+ *    Funzione che imposta la strip tutta spenda (150 LED) ad eccezzione di 3 LED in corrispondenza
+ *    della coordinata X della punta della fresa che saranno accesi alla massima luminosità di colore
+ *    Blu Turchese. I 5 LED a destra e sinistra di questi 3 LED dimuniranno progressivamente la loro
+ *    luminosità del colore Blu Turchese fino allo spegnimento al 6° LED a destra e a sinistra.
+ *    L'animazione di accensione avviene dal centro verso l'esterno.
+ *    L'animazione di spegnimento avviene dall'esterno verso il centro.
+ */
+void SetFollowMode( bool bState, int nBitXPosition );
 
 void setup()
 {
