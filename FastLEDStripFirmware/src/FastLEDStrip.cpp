@@ -1,4 +1,4 @@
-#include <FastLEDStrip.h>
+#include "FastLEDStrip.h"
 
 /*
  *    Funzione che imposta i parametri di inizializzazione dell strip
@@ -39,11 +39,11 @@ void SetFullLenghtMode( bool bState )
             // destra a sinistra fino al metà del numero dei LED della strip
             objLEDStrip[NUM_LEDS - 1 - i] = CRGB::Black;
 			FastLED.show();
-			
+
 			delay( WAIT_TO_NEXT );
         }
     }
-	
+
 	// Si vuole accendere totalmente la strip con una animazione che parte dal primo LED
     // al centro e proseguendo da entrambi i lati verso l'esterno
     else
@@ -59,7 +59,7 @@ void SetFullLenghtMode( bool bState )
             // tutti i LED a destra fino all'ultimo LED a destra della strip
             objLEDStrip[i + ( ( NUM_LEDS / 2 ) - 1)] = CRGB::Turquoise;
 			FastLED.show();
-			
+
 			delay( WAIT_TO_NEXT );
         }
     }
