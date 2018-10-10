@@ -88,6 +88,20 @@ void SetFollowMode( bool bState, int nBitXPosition )
     }
     else // Si vuole accendere il cursore della strip
     {
-		// b
+        objLEDStrip[( nBitXPosition )] = CRGB::Turquoise;
+        objLEDStrip[( nBitXPosition)].setHue( BRIGHTNESS );
+        FastLED.show();
+
+        for ( size_t i = 1; i < 6; i++ )
+        {
+            objLEDStrip[( nBitXPosition ) - i] = CRGB::Turquoise;
+            objLEDStrip[( nBitXPosition ) - i].setHue( BRIGHTNESS - ( i * 20 ) );
+            FastLED.show();
+
+            objLEDStrip[( nBitXPosition ) + i] = CRGB::Turquoise;
+            objLEDStrip[( nBitXPosition ) + i].setHue( BRIGHTNESS - ( i * 20 ) );
+            FastLED.show();
+        }
+
     }
 }

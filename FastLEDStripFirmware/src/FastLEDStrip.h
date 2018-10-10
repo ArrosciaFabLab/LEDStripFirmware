@@ -56,7 +56,7 @@ In totale Arduino UNO ha 2048 BYTES di RAM mentre Arduino MEGA 2560 ha 8192 BYTE
 //
 #define COLOR_ORDER         GRB
 // Luminosità iniziale dei LED (da 0 a 255)
-#define BRIGHTNESS          64
+#define BRIGHTNESS          255
 // Tempo di aggiornamento dello stato dei LED ogni secondo
 #define UPDATES_PER_SECOND  100
 // Velocità di accensione o spegnimento del successivo LED
@@ -69,7 +69,7 @@ In totale Arduino UNO ha 2048 BYTES di RAM mentre Arduino MEGA 2560 ha 8192 BYTE
 /*
  *    Funzione che imposta i parametri di inizializzazione dell strip
  */
-extern void LEDStripSetup( void );
+void LEDStripSetup( void );
 
 // La dichiarazione delle funzioni non è necessaria nel file .ino
 
@@ -80,7 +80,7 @@ extern void LEDStripSetup( void );
  *    L'animazione di accensione avviene dal centro verso l'esterno.
  *    L'animazione di spegnimento avviene dall'esterno verso il centro.
  */
-extern void SetFullLenghtMode( bool bState );
+void SetFullLenghtMode( bool bState );
 
 /*
  *    Funzione che imposta la strip tutta spenda (150 LED) ad eccezzione di 3 LED in corrispondenza
@@ -90,6 +90,6 @@ extern void SetFullLenghtMode( bool bState );
  *    L'animazione di accensione avviene dal centro verso l'esterno.
  *    L'animazione di spegnimento avviene dall'esterno verso il centro.
  */
-extern void SetFollowMode( bool bState, int nBitXPosition );
+void SetFollowMode( bool bState, int nBitXPosition );
 
 #endif

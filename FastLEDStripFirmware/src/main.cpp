@@ -1,9 +1,9 @@
-#include "FastLEDStrip.h"
-#include <Arduino.h> // Su un file .ino non è necessario
-#include <FastLED.h>
+#include "FastLEDStrip.h"   // Libreria di gestione della striscia LED
+#include <Arduino.h>        // Su un file .ino non è necessario
+#include <FastLED.h>        // Libreria FastLED
 
 /*
-Schetch che utilizza la libreria FasLED
+Schetch di test sulla striscia LED che utilizza la libreria FasLED
 */
 
 // La dichiarazione delle funzioni non è necessaria nel file .ino
@@ -27,4 +27,6 @@ void loop()
 
     // Spengo tutta la strip
     SetFullLenghtMode( OFF );
+
+    SetFollowMode( ON, 75 );
 }
