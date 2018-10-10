@@ -1,5 +1,6 @@
-#include <Arduino.h> // Su un file .ino non è necessario
 #include "FastLEDStrip.h"
+#include <Arduino.h> // Su un file .ino non è necessario
+#include <FastLED.h>
 
 /*
 Schetch che utilizza la libreria FasLED

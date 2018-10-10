@@ -1,4 +1,5 @@
-#include <FastLED.h>
+#ifndef FASTLEDSTRIP_H_
+#define FASTLEDSTRIP_H_
 
 /*
 La strip è composta da LED WS2812B che hanno 3 pin in entrata e 3 pin in uscita (power, ground e data)
@@ -40,9 +41,9 @@ In totale Arduino UNO ha 2048 BYTES di RAM mentre Arduino MEGA 2560 ha 8192 BYTE
     o
 
     objLEDStrip[0].CRGB( 5, 139, 140 );
-	
+
 	o
-	
+
 	objLEDStrip[0] = CRGB::Turchese
 */
 
@@ -65,15 +66,10 @@ In totale Arduino UNO ha 2048 BYTES di RAM mentre Arduino MEGA 2560 ha 8192 BYTE
 // Stato del LED a accesso
 #define ON					true
 
-// Array dei LED che rappresenta la strip
-CRGB objLEDStrip[ NUM_LEDS ];
-
-CRGBPalette16 currentPalette;
-
 /*
  *    Funzione che imposta i parametri di inizializzazione dell strip
  */
-void LEDStripSetup();
+extern void LEDStripSetup( void );
 
 // La dichiarazione delle funzioni non è necessaria nel file .ino
 
@@ -84,7 +80,7 @@ void LEDStripSetup();
  *    L'animazione di accensione avviene dal centro verso l'esterno.
  *    L'animazione di spegnimento avviene dall'esterno verso il centro.
  */
-void SetFullLenghtMode( bool bState );
+extern void SetFullLenghtMode( bool bState );
 
 /*
  *    Funzione che imposta la strip tutta spenda (150 LED) ad eccezzione di 3 LED in corrispondenza
@@ -94,4 +90,6 @@ void SetFullLenghtMode( bool bState );
  *    L'animazione di accensione avviene dal centro verso l'esterno.
  *    L'animazione di spegnimento avviene dall'esterno verso il centro.
  */
-void SetFollowMode( bool bState, int nBitXPosition );
+extern void SetFollowMode( bool bState, int nBitXPosition );
+
+#endif

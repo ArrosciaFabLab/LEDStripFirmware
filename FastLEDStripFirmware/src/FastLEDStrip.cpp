@@ -1,4 +1,10 @@
 #include "FastLEDStrip.h"
+#include <FastLED.h>
+
+// Array dei LED che rappresenta la strip
+CRGB objLEDStrip[ NUM_LEDS ];
+
+CRGBPalette16 currentPalette;
 
 /*
  *    Funzione che imposta i parametri di inizializzazione dell strip
