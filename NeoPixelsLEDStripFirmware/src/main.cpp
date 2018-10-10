@@ -6,6 +6,7 @@
 // Ogni metro si striscia utilizza circa 2 Ah alla massima lumosità quindi l'intera striscia consuma 2 x 2,5 = 5 Ah
 // In totale Arduino UNO ha 2048 BYTES di RAM mentre Arduino MEGA 2560 ha 8192 BYTES
 
+ // PIN a cui è collegato il pin dati della strip
 #define LED_STRIP_DATA_PIN  6
 // Numero totale di LED sulla strip
 #define LED_NUMBER          150
@@ -61,26 +62,63 @@ void loop()
 
 }
 
+/*
+ *    Funzione che imposta la strip tutta accesa (150 LED) alla massima luminosità
+ *    con tutti i LED di colore Blu Turchese.
+ *    Il parametro booleano indica se accendere o spegnere la strip.
+ *    L'animazione di accensione avviene dal centro verso l'esterno.
+ *    L'animazione di spegnimento avviene dall'esterno verso il centro.
+ */
 void SetFullLenghtMode( bool bState )
 {
 
-    // Si vuole spegnere totalmente la strip
+    // Si vuole spegnere totalmente la strip con una animazione che parte dal primo LED
+    // a sinistra e dal primo a destra e proseguendo da entrambi i lati verso il centro
     if ( bState == false )
     {
+        for ( size_t i = 0; i < ( ( NUM_LEDS / 2 ) - 1 ); i++ )
+        {
+            // Parto dal primo LED a sinistra e spengo tutti i LED da
+            // sinistra a destra fino al metà del numero dei LED della strip
 
+
+            // Parto dal primo LED a destra e spengo tutti i LED da
+            // destra a sinistra fino al metà del numero dei LED della strip
+
+        }
     }
-    else // Si vuole accendere totalmente la strip
-    {
 
+    // Si vuole accendere totalmente la strip con una animazione che parte dal primo LED
+    // al centro e proseguendo da entrambi i lati verso l'esterno
+    else
+    {
+        for ( size_t i = 1; i < ( NUM_LEDS + 1 ); i++ )
+        {
+            // Parto dal primo LED al centro e accendo tutti i LED da
+            // destra a sinistra fino al primo LED a sinistra della strip
+
+
+            // Parto dal primo LED a destra di quello al centro e accendo
+            // tutti i LED a destra fino all'ultimo LED a destra della strip
+            
+        }
     }
 }
 
+/*
+ *    Funzione che imposta la strip tutta spenda (150 LED) ad eccezzione di 3 LED in corrispondenza
+ *    della coordinata X della punta della fresa che saranno accesi alla massima luminosità di colore
+ *    Blu Turchese. I 5 LED a destra e sinistra di questi 3 LED dimuniranno progressivamente la loro
+ *    luminosità del colore Blu Turchese fino allo spegnimento al 6° LED a destra e a sinistra.
+ *    L'animazione di accensione avviene dal centro verso l'esterno.
+ *    L'animazione di spegnimento avviene dall'esterno verso il centro.
+ */
 void SetFollowMode( bool bState, int nBitXPosition )
 {
     // Si vuole spegnere il cursore della strip
     if ( bState == false )
     {
-        
+
     }
     else // Si vuole accendere il cursore della strip
     {

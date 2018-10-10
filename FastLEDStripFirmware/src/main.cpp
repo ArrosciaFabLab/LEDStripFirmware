@@ -43,19 +43,30 @@ In totale Arduino UNO ha 2048 BYTES di RAM mentre Arduino MEGA 2560 ha 8192 BYTE
     o
 
     objLEDStrip[0].CRGB( 5, 139, 140 );
+	
+	o
+	
+	objLEDStrip[0] = CRGB::Turchese
 */
 
- // PIN a cui è collegato il pin dati della strip
+// PIN a cui è collegato il pin dati della strip
 #define LED_PIN             6
 // Tipo di LED utilizzato sulla strip (WS2812B)
 #define LED_TYPE            WS2812
 // Numero totale di LED sulla strip
 #define NUM_LEDS            150
+//
 #define COLOR_ORDER         GRB
 // Luminosità iniziale dei LED (da 0 a 255)
-#define BRIGHTNESS          255
+#define BRIGHTNESS          64
 // Tempo di aggiornamento dello stato dei LED ogni secondo
 #define UPDATES_PER_SECOND  100
+// Velocità di accensione o spegnimento del successivo LED
+#define WAIT_TO_NEXT		20
+// Stato del LED a spento
+#define OFF					false
+// Stato del LED a accesso
+#define ON					true
 
 // Array dei LED che rappresenta la strip
 CRGB objLEDStrip[ NUM_LEDS ];
@@ -66,7 +77,7 @@ CRGBPalette16 currentPalette;
 
 /*
  *    Funzione che imposta la strip tutta accesa (150 LED) alla massima luminosità
- *    con tutti i LED di colore Blu Turchese.
+ *    con tutti i LED di colore Turchese.
  *    Il parametro booleano indica se accendere o spegnere la strip.
  *    L'animazione di accensione avviene dal centro verso l'esterno.
  *    L'animazione di spegnimento avviene dall'esterno verso il centro.
@@ -76,8 +87,8 @@ void SetFullLenghtMode( bool bState );
 /*
  *    Funzione che imposta la strip tutta spenda (150 LED) ad eccezzione di 3 LED in corrispondenza
  *    della coordinata X della punta della fresa che saranno accesi alla massima luminosità di colore
- *    Blu Turchese. I 5 LED a destra e sinistra di questi 3 LED dimuniranno progressivamente la loro
- *    luminosità del colore Blu Turchese fino allo spegnimento al 6° LED a destra e a sinistra.
+ *    Turchese. I 5 LED a destra e sinistra di questi 3 LED dimuniranno progressivamente la loro
+ *    luminosità del colore Turchese fino allo spegnimento al 6° LED a destra e a sinistra.
  *    L'animazione di accensione avviene dal centro verso l'esterno.
  *    L'animazione di spegnimento avviene dall'esterno verso il centro.
  */
@@ -103,54 +114,80 @@ void loop()
 
     FastLED.delay( 1000 / UPDATES_PER_SECOND );
 
-    // Accendo tutta la strip alla massima luminosità di colore Blu Turchese
-    SetFullLenghtMode( true );
+    // Accendo tutta la strip alla massima luminosità di colore Turchese
+    SetFullLenghtMode( ON );
 
     // Spengo tutta la strip
-    //SetFullLenghtMode( false );
+    SetFullLenghtMode( OFF );
 }
 
+/*
+ *    Funzione che imposta la strip tutta accesa o spenta alla massima luminosità
+ *    con tutti i LED di colore Blu Turchese (se accesa).
+ *    Il parametro booleano indica se accendere o spegnere la strip.
+ *    L'animazione di accensione avviene dal centro verso l'esterno.
+ *    L'animazione di spegnimento avviene dall'esterno verso il centro.
+ */
 void SetFullLenghtMode( bool bState )
 {
 
     // Si vuole spegnere totalmente la strip
-    if ( bState == false )
+    if ( bState == OFF )
     {
-        for ( size_t i = 0; i < 74; i++ )
+        for ( size_t i = 0; i < ( ( NUM_LEDS / 2 ) - 1 ); i++ )
         {
-            // LED a sinistra
-            objLEDStrip[i].setRGB( 0, 0, 0 );
-            objLEDStrip[i].setHue( 0 );
+            // Parto dal primo LED a sinistra e spengo tutti i LED da
+            // sinistra a destra fino al metà del numero dei LED della strip
+            objLEDStrip[i] = CRGB::Black;
+			FastLED.show();
 
-            // LED a destra
-            objLEDStrip[149 - i].setRGB( 0, 0, 0 );
-            objLEDStrip[149 - i].setHue( 0 );
+            // Parto dal primo LED a destra e spengo tutti i LED da
+            // destra a sinistra fino al metà del numero dei LED della strip
+            objLEDStrip[NUM_LEDS - 1 - i] = CRGB::Black;
+			FastLED.show();
+			
+			delay( WAIT_TO_NEXT );
         }
     }
-    else // Si vuole accendere totalmente la strip
+	
+	// Si vuole accendere totalmente la strip con una animazione che parte dal primo LED
+    // al centro e proseguendo da entrambi i lati verso l'esterno
+    else
     {
-        for ( size_t i = 1; i < 76; i++ )
+        for ( size_t i = 1; i < ( ( NUM_LEDS / 2 ) + 1 ); i++ )
         {
-            // LED a sinistra
-            objLEDStrip[75 - i].setRGB( 5, 139, 140 );
-            objLEDStrip[75 - i].setHue( 255 );
+            // Parto dal primo LED al centro e accendo tutti i LED da
+            // destra a sinistra fino al primo LED a sinistra della strip
+            objLEDStrip[( NUM_LEDS / 2 ) - i] = CRGB::Turquoise;
+			FastLED.show();
 
-            // LED a destra
-            objLEDStrip[i + 74].setRGB( 5, 139, 140 );
-            objLEDStrip[i + 74].setHue( 255 );
+            // Parto dal primo LED a destra di quello al centro e accendo
+            // tutti i LED a destra fino all'ultimo LED a destra della strip
+            objLEDStrip[i + ( ( NUM_LEDS / 2 ) - 1)] = CRGB::Turquoise;
+			FastLED.show();
+			
+			delay( WAIT_TO_NEXT );
         }
     }
 }
 
+/*
+ *    Funzione che imposta la strip tutta spenda (150 LED) ad eccezzione di 3 LED in corrispondenza
+ *    della coordinata X della punta della fresa che saranno accesi alla massima luminosità di colore
+ *    Turchese. I 5 LED a destra e sinistra di questi 3 LED dimuniranno progressivamente la loro
+ *    luminosità del colore Turchese fino allo spegnimento al 6° LED a destra e a sinistra.
+ *    L'animazione di accensione avviene dal centro verso l'esterno.
+ *    L'animazione di spegnimento avviene dall'esterno verso il centro.
+ */
 void SetFollowMode( bool bState, int nBitXPosition )
 {
     // Si vuole spegnere il cursore della strip
-    if ( bState == false )
+    if ( bState == OFF )
     {
-
+		// a
     }
     else // Si vuole accendere il cursore della strip
     {
-
+		// b
     }
 }
