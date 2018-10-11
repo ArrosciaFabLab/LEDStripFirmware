@@ -19,7 +19,7 @@ void setup()
 void loop()
 {
     FastLED.show();
-
+	
     FastLED.delay( 1000 / UPDATES_PER_SECOND );
 
     // Accendo tutta la strip alla massima luminosità di colore Turchese
@@ -27,6 +27,15 @@ void loop()
 
     // Spengo tutta la strip
     SetFullLenghtMode( OFF );
-
-    SetFollowMode( ON, 75 );
+	
+    for ( size_t i = 0; i < 29 ; i++ )
+    {
+        SetFollowMode( ON, 75 + i );
+        SetFollowMode( OFF, 75 + i );
+    }
+    for ( size_t i = 29; i > 0 ; i-- )
+    {
+        SetFollowMode( ON, 75 + i );
+        SetFollowMode( OFF, 75 + i );
+    }
 }

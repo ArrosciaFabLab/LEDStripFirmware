@@ -53,6 +53,8 @@ In totale Arduino UNO ha 2048 BYTES di RAM mentre Arduino MEGA 2560 ha 8192 BYTE
 #define LED_TYPE            WS2812
 // Numero totale di LED sulla strip
 #define NUM_LEDS            150
+// Larghezza del cursore in LED - deve essere un numero dispari >= 3
+#define CURSOR_LEDS         13
 //
 #define COLOR_ORDER         GRB
 // Luminosità iniziale dei LED (da 0 a 255)
@@ -65,6 +67,8 @@ In totale Arduino UNO ha 2048 BYTES di RAM mentre Arduino MEGA 2560 ha 8192 BYTE
 #define OFF					false
 // Stato del LED a accesso
 #define ON					true
+// Set the amount to fade I usually do 5, 10, 15, 20, 25 etc even up to 255
+#define FADE_RATE           25
 
 /*
  *    Funzione che imposta i parametri di inizializzazione dell strip

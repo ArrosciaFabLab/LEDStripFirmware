@@ -72,36 +72,83 @@ void SetFullLenghtMode( bool bState )
 }
 
 /*
- *    Funzione che imposta la strip tutta spenda (150 LED) ad eccezzione di 3 LED in corrispondenza
- *    della coordinata X della punta della fresa che saranno accesi alla massima luminosità di colore
- *    Turchese. I 5 LED a destra e sinistra di questi 3 LED dimuniranno progressivamente la loro
- *    luminosità del colore Turchese fino allo spegnimento al 6° LED a destra e a sinistra.
+ *    Funzione che imposta la strip tutta spenda (150 LED) ad eccezzione di 1 LED in corrispondenza
+ *    della coordinata X della punta della fresa che sarà acceso alla massima luminosità di colore
+ *    Turchese. I LED a destra e sinistra del precedente LED dimuniranno progressivamente la loro
+ *    luminosità del colore Turchese fino allo spegnimento. La larghezza in LED del cursore è definita.
  *    L'animazione di accensione avviene dal centro verso l'esterno.
  *    L'animazione di spegnimento avviene dall'esterno verso il centro.
  */
 void SetFollowMode( bool bState, int nBitXPosition )
 {
+    int nBrightness = 0;
+
     // Si vuole spegnere il cursore della strip
     if ( bState == OFF )
     {
-		// a
-    }
-    else // Si vuole accendere il cursore della strip
-    {
-        objLEDStrip[( nBitXPosition )] = CRGB::Turquoise;
-        objLEDStrip[( nBitXPosition)].setHue( BRIGHTNESS );
-        FastLED.show();
 
-        for ( size_t i = 1; i < 6; i++ )
+        for ( size_t i = ( ( CURSOR_LEDS / 2 ) + 1 ); i < 1; i-- )
         {
-            objLEDStrip[( nBitXPosition ) - i] = CRGB::Turquoise;
-            objLEDStrip[( nBitXPosition ) - i].setHue( BRIGHTNESS - ( i * 20 ) );
+            // Spengo il LED a destra predente LED spento
+            objLEDStrip[( nBitXPosition + i )] = CRGB::Black;
             FastLED.show();
 
-            objLEDStrip[( nBitXPosition ) + i] = CRGB::Turquoise;
-            objLEDStrip[( nBitXPosition ) + i].setHue( BRIGHTNESS - ( i * 20 ) );
+            // Spengo il LED a sinistra predente LED spento
+    		objLEDStrip[( nBitXPosition - i )] = CRGB::Black;
             FastLED.show();
         }
 
+        // Spengo il LED centrale al cursore
+        objLEDStrip[( nBitXPosition )] = CRGB::Black;
+        FastLED.show();
+    }
+    else // Si vuole accendere il cursore della strip
+    {
+
+        // Accendo il LED centrale al cursore con il colore Turchese alla massima luminosità
+        objLEDStrip[( nBitXPosition )] = CRGB::Turquoise;
+        FastLED.show();
+
+        for ( size_t i = 1; i < ( ( CURSOR_LEDS / 2 ) + 1 ); i++ )
+        {
+            // Spengo il LED a destra predente LED spento
+            objLEDStrip[( nBitXPosition + i )] = CRGB::Turquoise;
+            objLEDStrip[( nBitXPosition + i )].fadeLightBy( nBrightness );
+            FastLED.show();
+
+            // Spengo il LED a sinistra predente LED spento
+    		objLEDStrip[( nBitXPosition - i )] = CRGB::Turquoise;
+            objLEDStrip[( nBitXPosition - i )].fadeLightBy( nBrightness );
+            FastLED.show();
+
+            nBrightness = nBrightness + FADE_RATE;
+        }
+        /*objLEDStrip[( nBitXPosition )] = CRGB::MidnightBlue;
+        FastLED.show();
+
+        objLEDStrip[( nBitXPosition + 1 )] = CRGB::Blue;
+        FastLED.show();
+		objLEDStrip[( nBitXPosition - 1 )] = CRGB::Blue;
+        FastLED.show();
+		objLEDStrip[( nBitXPosition + 2 )] = CRGB::Turquoise;
+        FastLED.show();
+		objLEDStrip[( nBitXPosition - 2 )] = CRGB::Turquoise;
+        FastLED.show();
+		objLEDStrip[( nBitXPosition + 3 )] = CRGB::MediumTurquoise;
+        FastLED.show();
+		objLEDStrip[( nBitXPosition - 3 )] = CRGB::MediumTurquoise;
+        FastLED.show();
+		objLEDStrip[( nBitXPosition + 4 )] = CRGB::PaleTurquoise;
+        FastLED.show();
+		objLEDStrip[( nBitXPosition - 4 )] = CRGB::PaleTurquoise;
+        FastLED.show();
+		objLEDStrip[( nBitXPosition + 5 )] = CRGB::LightSkyBlue;
+        FastLED.show();
+		objLEDStrip[( nBitXPosition - 5 )] = CRGB::LightSkyBlue;
+        FastLED.show();
+		objLEDStrip[( nBitXPosition + 6 )] = CRGB::LightCyan;
+        FastLED.show();
+		objLEDStrip[( nBitXPosition - 6 )] = CRGB::LightCyan;
+        FastLED.show();*/
     }
 }
