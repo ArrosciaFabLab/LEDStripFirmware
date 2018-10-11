@@ -96,4 +96,6 @@ void SetFullLenghtMode( bool bState );
  */
 void SetFollowMode( bool bState, int nBitXPosition );
 
+void CylonBounce( int red, int green, int blue, int EyeSize, int SpeedDelay, int ReturnDelay );
+
 #endif

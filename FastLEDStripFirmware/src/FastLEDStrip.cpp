@@ -6,6 +6,12 @@ CRGB objLEDStrip[ NUM_LEDS ];
 
 CRGBPalette16 currentPalette;
 
+// Colore utilizzato per la striscia LED
+//CRGB objColor = CRGB::LightSeaGreen;  // 0x20B2AA - rgb(32,178,170)
+//CRGB objColor = CRGB::Turquoise;  // 0x40E0D0 - rgb(64,224,208)
+//CRGB objColor = CRGB::MediumTurquoise;    // 0x48D1CC - rgb(72,209,204)
+CRGB objColor = CRGB::DarkTurquoise; // 0x00CED1 - rgb(0,206,209)
+
 /*
  *    Funzione che imposta i parametri di inizializzazione dell strip
  */
@@ -27,6 +33,7 @@ void LEDStripSetup()
  *    Il parametro booleano indica se accendere o spegnere la strip.
  *    L'animazione di accensione avviene dal centro verso l'esterno.
  *    L'animazione di spegnimento avviene dall'esterno verso il centro.
+ *    Il tipo di fade è come quello usato nell'occhio dei Cycloni, di Super Car e detto Larson scanner
  */
 void SetFullLenghtMode( bool bState )
 {
@@ -58,12 +65,12 @@ void SetFullLenghtMode( bool bState )
         {
             // Parto dal primo LED al centro e accendo tutti i LED da
             // destra a sinistra fino al primo LED a sinistra della strip
-            objLEDStrip[( NUM_LEDS / 2 ) - i] = CRGB::Turquoise;
+            objLEDStrip[( NUM_LEDS / 2 ) - i] = objColor;
 			FastLED.show();
 
             // Parto dal primo LED a destra di quello al centro e accendo
             // tutti i LED a destra fino all'ultimo LED a destra della strip
-            objLEDStrip[i + ( ( NUM_LEDS / 2 ) - 1)] = CRGB::Turquoise;
+            objLEDStrip[i + ( ( NUM_LEDS / 2 ) - 1)] = objColor;
 			FastLED.show();
 
 			delay( WAIT_TO_NEXT );
@@ -78,6 +85,7 @@ void SetFullLenghtMode( bool bState )
  *    luminosità del colore Turchese fino allo spegnimento. La larghezza in LED del cursore è definita.
  *    L'animazione di accensione avviene dal centro verso l'esterno.
  *    L'animazione di spegnimento avviene dall'esterno verso il centro.
+ *    Il tipo di fade è come quello usato nell'occhio dei Cycloni, di Super Car e detto Larson scanner
  */
 void SetFollowMode( bool bState, int nBitXPosition )
 {
@@ -106,18 +114,18 @@ void SetFollowMode( bool bState, int nBitXPosition )
     {
 
         // Accendo il LED centrale al cursore con il colore Turchese alla massima luminosità
-        objLEDStrip[( nBitXPosition )] = CRGB::Turquoise;
+        objLEDStrip[( nBitXPosition )] = objColor;
         FastLED.show();
 
         for ( size_t i = 1; i < ( ( CURSOR_LEDS / 2 ) + 1 ); i++ )
         {
             // Spengo il LED a destra predente LED spento
-            objLEDStrip[( nBitXPosition + i )] = CRGB::Turquoise;
+            objLEDStrip[( nBitXPosition + i )] = objColor;
             objLEDStrip[( nBitXPosition + i )].fadeLightBy( nBrightness );
             FastLED.show();
 
             // Spengo il LED a sinistra predente LED spento
-    		objLEDStrip[( nBitXPosition - i )] = CRGB::Turquoise;
+    		objLEDStrip[( nBitXPosition - i )] = objColor;
             objLEDStrip[( nBitXPosition - i )].fadeLightBy( nBrightness );
             FastLED.show();
 
@@ -151,4 +159,39 @@ void SetFollowMode( bool bState, int nBitXPosition )
 		objLEDStrip[( nBitXPosition - 6 )] = CRGB::LightCyan;
         FastLED.show();*/
     }
+}
+
+void CylonBounce( int red, int green, int blue, int EyeSize, int SpeedDelay, int ReturnDelay)
+{
+    for( int i = 0; i < NUM_LEDS - EyeSize - 2; i++ )
+    {
+        fill_solid( objLEDStrip, NUM_LEDS, CRGB::Black );
+        objLEDStrip[ i ] = CRGB( red / 10, green / 10, blue / 10 );
+        FastLED.show();
+
+        for( int j = 1; j <= EyeSize; j++ )
+        {
+            objLEDStrip[i + j] = CRGB( red, green, blue );
+            FastLED.show();
+        }
+        objLEDStrip[i + EyeSize + 1] = CRGB( red / 10, green / 10, blue / 10 );
+        FastLED.show();
+        delay( SpeedDelay );
+    }
+    delay( ReturnDelay );
+    for( int i = NUM_LEDS - EyeSize - 2; i > 0; i-- )
+    {
+        fill_solid( objLEDStrip, NUM_LEDS, CRGB::Black );
+        objLEDStrip[ i ] = CRGB( red / 10, green / 10, blue / 10 );
+        FastLED.show();
+        for( int j = 1; j <= EyeSize; j++ )
+        {
+            objLEDStrip[i + j] = CRGB( red, green, blue );
+            FastLED.show();
+        }
+        objLEDStrip[i + EyeSize + 1] = CRGB( red / 10, green / 10, blue / 10 );
+        FastLED.show();
+        delay( SpeedDelay );
+  }
+  delay( ReturnDelay );
 }
