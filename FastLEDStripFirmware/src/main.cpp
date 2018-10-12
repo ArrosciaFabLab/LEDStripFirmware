@@ -28,7 +28,7 @@ void loop()
     // Spengo tutta la strip
     SetFullLenghtMode( OFF );
 
-    for ( size_t i = 0; i < 29 ; i++ )
+    /*for ( size_t i = 0; i < 29 ; i++ )
     {
         SetFollowMode( ON, 75 + i );
         SetFollowMode( OFF, 75 + i );
@@ -37,7 +37,11 @@ void loop()
     {
         SetFollowMode( ON, 75 + i );
         SetFollowMode( OFF, 75 + i );
-    }
+    }*/
 
-    CylonBounce( 255, 0, 0, 4, 10, 50 );
+    //CylonBounce( 255, 0, 0, 4, 10, 50 ); // Red
+    //CylonBounce( 64,224, 208, 4, 10, 50 ); // Turquoise
+    //CylonBounce( 32, 178, 170, 4, 10, 50 ); // LightSeaGreen
+    //CylonBounce( 72, 209, 204, 4, 10, 50 ); // MediumTurquoise
+    CylonBounce( 0, 206, 209, 4, 10, 50 ); // DarkTurquoise
 }

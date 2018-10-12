@@ -163,9 +163,14 @@ void SetFollowMode( bool bState, int nBitXPosition )
 
 void CylonBounce( int red, int green, int blue, int EyeSize, int SpeedDelay, int ReturnDelay)
 {
+
+    // Parto dal lato sorgente della strip e muovo l'occhio
+    // lungo tutta la sua lunghezza fino all'estremità opposta
     for( int i = 0; i < NUM_LEDS - EyeSize - 2; i++ )
     {
+        // Spengo tutta la strip
         fill_solid( objLEDStrip, NUM_LEDS, CRGB::Black );
+
         objLEDStrip[ i ] = CRGB( red / 10, green / 10, blue / 10 );
         FastLED.show();
 
@@ -179,6 +184,9 @@ void CylonBounce( int red, int green, int blue, int EyeSize, int SpeedDelay, int
         delay( SpeedDelay );
     }
     delay( ReturnDelay );
+
+    // Muovo l'occhio e torno indietro sulla strip
+    // fino all'estremità della sorgente
     for( int i = NUM_LEDS - EyeSize - 2; i > 0; i-- )
     {
         fill_solid( objLEDStrip, NUM_LEDS, CRGB::Black );
