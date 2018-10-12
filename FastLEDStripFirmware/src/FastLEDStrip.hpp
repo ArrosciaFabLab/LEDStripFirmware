@@ -1,6 +1,8 @@
 #ifndef FASTLEDSTRIP_H_
 #define FASTLEDSTRIP_H_
 
+#include <FastLED.h>
+
 /*
 La strip è composta da LED WS2812B che hanno 3 pin in entrata e 3 pin in uscita (power, ground e data)
 
@@ -70,6 +72,10 @@ In totale Arduino UNO ha 2048 BYTES di RAM mentre Arduino MEGA 2560 ha 8192 BYTE
 // Set the amount to fade I usually do 5, 10, 15, 20, 25 etc even up to 255
 #define FADE_RATE           25
 
+extern CRGB objDefaultColor;
+
+// La dichiarazione delle funzioni non è necessaria nel file .ino
+
 /*
  *    Funzione che imposta i parametri di inizializzazione dell strip
  */
@@ -84,7 +90,7 @@ void LEDStripSetup( void );
  *    L'animazione di accensione avviene dal centro verso l'esterno.
  *    L'animazione di spegnimento avviene dall'esterno verso il centro.
  */
-void SetFullLenghtMode( bool bState );
+void StripFullLenghtMode( bool bState, CRGB objColor = objDefaultColor, int nBrightness = BRIGHTNESS, int nSpeed = 0 );
 
 /*
  *    Funzione che imposta la strip tutta spenda (150 LED) ad eccezzione di 3 LED in corrispondenza
@@ -94,7 +100,7 @@ void SetFullLenghtMode( bool bState );
  *    L'animazione di accensione avviene dal centro verso l'esterno.
  *    L'animazione di spegnimento avviene dall'esterno verso il centro.
  */
-void SetFollowMode( bool bState, int nBitXPosition );
+void StripFollowMode( bool bState, int nBitXPosition );
 
 void CylonBounce( int red, int green, int blue, int EyeSize, int SpeedDelay, int ReturnDelay );
 

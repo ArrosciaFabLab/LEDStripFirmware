@@ -1,16 +1,13 @@
-#include "FastLEDStrip.h"
-#include <FastLED.h>
+#include "FastLEDStrip.hpp"
 
 // Array dei LED che rappresenta la strip
 CRGB objLEDStrip[ NUM_LEDS ];
-
-CRGBPalette16 currentPalette;
 
 // Colore utilizzato per la striscia LED
 //CRGB objColor = CRGB::LightSeaGreen;  // 0x20B2AA - rgb(32,178,170)
 //CRGB objColor = CRGB::Turquoise;  // 0x40E0D0 - rgb(64,224,208)
 //CRGB objColor = CRGB::MediumTurquoise;    // 0x48D1CC - rgb(72,209,204)
-CRGB objColor = CRGB::DarkTurquoise; // 0x00CED1 - rgb(0,206,209)
+CRGB objDefaultColor = CRGB::DarkTurquoise; // 0x00CED1 - rgb(0,206,209)
 
 /*
  *    Funzione che imposta i parametri di inizializzazione dell strip
@@ -28,32 +25,33 @@ void LEDStripSetup()
 }
 
 /*
- *    Funzione che imposta la strip tutta accesa o spenta alla massima luminosità
- *    con tutti i LED di colore Blu Turchese (se accesa).
+ *    Funzione che imposta la strip tutta accesa o spenta.
+ *    Se è accesa si utilizza la luminosità e il colore passati come paratri.
  *    Il parametro booleano indica se accendere o spegnere la strip.
  *    L'animazione di accensione avviene dal centro verso l'esterno.
  *    L'animazione di spegnimento avviene dall'esterno verso il centro.
+ *    nDelay indica quanto veloce deve essere l'animazione (più grande è più lenta è l'animazione)
  *    Il tipo di fade è come quello usato nell'occhio dei Cycloni, di Super Car e detto Larson scanner
  */
-void SetFullLenghtMode( bool bState )
+void StripFullLenghtMode( bool bState, CRGB objColor, int nBrightness, int nDelay )
 {
-
-    // Si vuole spegnere totalmente la strip
-    if ( bState == OFF )
+    if ( bState == OFF ) // Si vuole spegnere totalmente la strip
     {
+
+        // Ciclo per la metà del numero totale dei LED
         for ( size_t i = 0; i < ( ( NUM_LEDS / 2 ) - 1 ); i++ )
         {
-            // Parto dal primo LED a sinistra e spengo tutti i LED da
+            // Parto dal primo LED a sinistra della strip e spengo tutti i LED da
             // sinistra a destra fino al metà del numero dei LED della strip
             objLEDStrip[i] = CRGB::Black;
 			FastLED.show();
 
-            // Parto dal primo LED a destra e spengo tutti i LED da
+            // Parto dal primo LED a destra della strip e spengo tutti i LED da
             // destra a sinistra fino al metà del numero dei LED della strip
             objLEDStrip[NUM_LEDS - 1 - i] = CRGB::Black;
 			FastLED.show();
 
-			delay( WAIT_TO_NEXT );
+			delay( nDelay );
         }
     }
 
@@ -73,7 +71,7 @@ void SetFullLenghtMode( bool bState )
             objLEDStrip[i + ( ( NUM_LEDS / 2 ) - 1)] = objColor;
 			FastLED.show();
 
-			delay( WAIT_TO_NEXT );
+			delay( nDelay );
         }
     }
 }
@@ -87,7 +85,7 @@ void SetFullLenghtMode( bool bState )
  *    L'animazione di spegnimento avviene dall'esterno verso il centro.
  *    Il tipo di fade è come quello usato nell'occhio dei Cycloni, di Super Car e detto Larson scanner
  */
-void SetFollowMode( bool bState, int nBitXPosition )
+void StripFollowMode( bool bState, int nBitXPosition )
 {
     int nBrightness = 0;
 
@@ -114,18 +112,18 @@ void SetFollowMode( bool bState, int nBitXPosition )
     {
 
         // Accendo il LED centrale al cursore con il colore Turchese alla massima luminosità
-        objLEDStrip[( nBitXPosition )] = objColor;
+        objLEDStrip[( nBitXPosition )] = objDefaultColor;
         FastLED.show();
 
         for ( size_t i = 1; i < ( ( CURSOR_LEDS / 2 ) + 1 ); i++ )
         {
             // Spengo il LED a destra predente LED spento
-            objLEDStrip[( nBitXPosition + i )] = objColor;
+            objLEDStrip[( nBitXPosition + i )] = objDefaultColor;
             objLEDStrip[( nBitXPosition + i )].fadeLightBy( nBrightness );
             FastLED.show();
 
             // Spengo il LED a sinistra predente LED spento
-    		objLEDStrip[( nBitXPosition - i )] = objColor;
+    		objLEDStrip[( nBitXPosition - i )] = objDefaultColor;
             objLEDStrip[( nBitXPosition - i )].fadeLightBy( nBrightness );
             FastLED.show();
 
